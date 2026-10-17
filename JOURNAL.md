@@ -3,7 +3,7 @@ title: "PowerSourceArbitrator"
 github: "https://github.com/opilitethesmartdev/PowerSourceArbitrator"
 description: "Simple module that safely arbitrates two loads with their own power supplies and switches them around as necessary"
 created_at: "2026-10-16"
-total_time: "3h 6m"
+total_time: "5h 6m"
 ---
 
 # October 16, 2026: Project Setup, parts hunt
@@ -56,3 +56,26 @@ But uh i'll stay in simulation for now - don't wanna lose any more MOSFETs. =(
 Timelapse: https://lapse.hackclub.com/timelapse/qd0cvuPhl8u-
 
 **Total time spent: 1h 6m**
+
+# October 17, 2026 (entry 2): Experimented with new setups
+<!-- fabricate:entry 559 -->
+
+After the, uh, not too successful phyiscal test, i decided to take a closer look at the simulation. First, i decided to play around a bit with bipolar transistors (old-school NPN/PNP). But i had to understand how they worked, so i made some test circuits:
+![](https://fabricate.hackclub-assets.com/4241a92fa9cec50c1e84a20d04e6d06181f40c0339021e6b7dc7b010e7f805a9/image-png/image.png)
+But after quite a bit of iteration I realized that they weren't really the solution, and decided to look into diodes again - specifically ideal diodes, because i can't really afford the voltage drops (or so i thought). But first, again, i had to figure them out, so made this test circuit:
+*(forward state)*
+![](https://fabricate.hackclub-assets.com/9e6011fe779180b11f25e2d2e9ad3518e9c6c8a629849351bc7f964e22a8052e/image-png/image.png)
+*(reverse state)*
+![](https://fabricate.hackclub-assets.com/89d2a71bc0ab1c737d41f95dbce518a3af2c7c4ac635cf3286830c5562690506/image-png/image.png)
+And uh it seemed to work. But not in the configuration i needed it to. 
+So, after a few rounds of exploring the preset circuits in this simulator, i realized something (i should have **not** forgotten): I should get the design working first, then find a diode replacement later - because what sense does a perfect ideal diode setup make if the logic itself is bad?
+So, i took normal diodes, ignored the voldate drops, and ended up with this circuit:
+![](https://fabricate.hackclub-assets.com/3b8be16e049ce87e9cdbd75fa1a98c1167ad1936b43ea689833385d75a52e5ca/image-png/image.png)
+It's basically 2 mosfets (one p, one n) with diodes that control the line - the nmos turns on when there is voltage, but the pmos blocks it when the other side has voltage too - with respective diodes to prevent backflow, it actually works (the test i do to differentiate actual blocking from "50 ohm taste better than 5V supply" is increasing one supply - i actually saw that the old prototypes would instantly fail the moment one supply is greater (even by like 10 mV)).
+And luckily, this one doesn't. It actually takes 2V difference to cause a 1uA leak! (and i am **NOT** planning on having either 7V or 3v3 ANYWHERE near any 5V).
+So yeah, that was this session.
+Next time, i'll have to look into the diodes and voltage drops (or just be lazy and step it back up heh).
+
+Timelapse: https://lapse.hackclub.com/timelapse/6WivjznwEfxq
+
+**Total time spent: 2h**
