@@ -3,7 +3,7 @@ title: "PowerSourceArbitrator"
 github: "https://github.com/opilitethesmartdev/PowerSourceArbitrator"
 description: "Simple module that safely arbitrates two loads with their own power supplies and switches them around as necessary"
 created_at: "2026-10-16"
-total_time: "5h 6m"
+total_time: "7h 36m"
 ---
 
 # October 16, 2026: Project Setup, parts hunt
@@ -79,3 +79,41 @@ Next time, i'll have to look into the diodes and voltage drops (or just be lazy 
 Timelapse: https://lapse.hackclub.com/timelapse/6WivjznwEfxq
 
 **Total time spent: 2h**
+
+# October 17, 2026 (entry 3): Implemented ideal diode, experimented with arrangements
+<!-- fabricate:entry 596 -->
+
+So, good news is, i finally implemented an ideal diode:
+![](https://fabricate.hackclub-assets.com/0e80b3e98166c66189fb4b16fea773c964c217d2244ccb013030b6d56a6c2f44/image-png/image.png)
+This is the same design found in Raspberry Pis and it works!
+Voltage loss is merely 5-10 mV at 5V!
+
+However ... I kinda did not notice how my whole setup was wrong - so i didn't do much progress. But hey, learning from mistakes is valuable experience, isn't it?
+Anyways, the mistake i made is actually quite interesting. Look at this circuit:
+![](https://fabricate.hackclub-assets.com/5c053454136f082f6f7a0387d15a1b3a276e73f96d1e8e83760ee5739ad1e474/image-png/image.png)
+It looks alright, doesn't it? Well, there is a small issue that is easy to overlook.
+Let's first remember what each part represents:
+![](https://fabricate.hackclub-assets.com/d3a32d46a667d8185e07d7c0b03b550ae55b0a97d2494ec06cde259cfe0145e8/image-png/Screenshot%202026-10-17%20200512.png)
+(edit: the radxa is a sbc, i put it there because this is project should be a part of another one of mine, so i might have forgotten its separate)
+*Disclaimer: quick monologue section*
+Actually, now that i think about it ... this might not be an issue after all?
+(because it's actually sth separate. we dont have to emulate the radxa's load alongside ours)
+No, wait, i was right
+Or it might?
+*monologue done
+anyways, the issue is this:
+![](https://fabricate.hackclub-assets.com/2e5f176a11df569ba6d98028ec03bc5c50429384f24732419f272fc8eda54bd9/image-png/Screenshot%202026-10-17%20200512.png)
+See the ideal diode in the radxa? Well the issue is that i do not have access to the radxa's power lines. I can't just put a diode between its usb (power source) and internals!
+Meaning, the actual correct way to have it is like this:
+![](https://fabricate.hackclub-assets.com/bced4c3feeae06c2dda6deb379a1fa8b7254ffb4bee78d06512322098f5acfd2/image-png/image.png)
+*(Note that the load is now behind the diode.)*
+But that, unfortunately, also leads to this:
+![](https://fabricate.hackclub-assets.com/983f19c29dccf6f04f4f05b6e8f1629452920659a6e77723bdd5eec742671c81/image-png/image.png)
+Meaning, my original goal was **NOT** completed.
+(Although this is theoretically valid for this project, meaning i could theoretically put that onto a pcb and give it for review) - idk, will have to think abt it
+
+By the way, here is the link to the Falstad circuit:
+https://www.falstad.com/s.php?s=zdKuAg
+Timelapse: https://lapse.hackclub.com/timelapse/v5NNCTAiX8R1
+
+**Total time spent: 2h 30m**
