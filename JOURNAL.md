@@ -3,7 +3,7 @@ title: "PowerSourceArbitrator"
 github: "https://github.com/opilitethesmartdev/PowerSourceArbitrator"
 description: "Simple module that safely arbitrates two loads with their own power supplies and switches them around as necessary"
 created_at: "2026-10-16"
-total_time: "2h"
+total_time: "3h 6m"
 ---
 
 # October 16, 2026: Project Setup, parts hunt
@@ -35,3 +35,24 @@ So, next step will be some real time experimenting, with ACTUAL transistors (i h
 Timelapse: https://lapse.hackclub.com/timelapse/HRWkrYtNx8xA
 
 **Total time spent: 1h 12m**
+
+# October 17, 2026: Experimented with physical transistors
+<!-- fabricate:entry 553 -->
+
+So, from last time, i wanted to put my circuit in the real world and test it out. It was more complicated than i acticipated - i was using my IRLZ44Ns, and the first issue was to even get them to work.
+I couldnt figure it out, and, unfortunately, three of them are no longer amongst us:
+![](https://fabricate.hackclub-assets.com/57ff2c05c59311d7110c34fd439112911142e59bf0aa32398f2a29d1ad175ca6/image-jpeg/20261017_100021.jpg)
+They are now very extravagant 30 ohm resistors:
+![](https://fabricate.hackclub-assets.com/804994eaee47f6a589cd4c7034b2b8f1de14a00cf993ed7d2f403b2e84d0ac0c/image-jpeg/20261017_100054.jpg)
+But uh, at least their sacrifice was not in vain, because i learnt a very important lesson:
+_Never **EVER** drive a high-side load with a low-side mosfet._
+(Even though the simulation worked fine somehow - meh.)
+Also, i at least set up the design:
+![](https://fabricate.hackclub-assets.com/707e1fb8e822b0d3ab3bcdd93c1c84c4773cb695b83ddd58696dfe890817de97/image-jpeg/20261017_100140.jpg)
+A button connects power to each side, and activates a mosfet - that would then do the actual board.
+But uh i'll stay in simulation for now - don't wanna lose any more MOSFETs. =(
+(ignore the scrap parts on the right)
+
+Timelapse: https://lapse.hackclub.com/timelapse/qd0cvuPhl8u-
+
+**Total time spent: 1h 6m**
