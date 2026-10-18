@@ -3,7 +3,7 @@ title: "PowerSourceArbitrator"
 github: "https://github.com/opilitethesmartdev/PowerSourceArbitrator"
 description: "Simple module that safely arbitrates two loads with their own power supplies and switches them around as necessary"
 created_at: "2026-10-16"
-total_time: "7h 36m"
+total_time: "9h"
 ---
 
 # October 16, 2026: Project Setup, parts hunt
@@ -118,3 +118,34 @@ https://www.falstad.com/s.php?s=zdKuAg
 Timelapse: https://lapse.hackclub.com/timelapse/v5NNCTAiX8R1
 
 **Total time spent: 2h 30m**
+
+# October 18, 2026: Finalized design
+<!-- fabricate:entry 622 -->
+
+I finally made the design work:
+![](https://fabricate.hackclub-assets.com/f6db74ed9332d0dfab2d1ac77fdda0b0fbafc9a44a7751f53891bb26f6b3d04a/image-png/image.png)
+Let me explain:
+![](https://fabricate.hackclub-assets.com/f932e9a1cbd4f5416bd151a00272dff03e89e04b3481a43f6f8022aa375f53c0/image-png/Screenshot%202026-10-18%20110417.png)
+The blue IDs are my Ideal Diodes - a design I made myself using only MOSFETs (and a comparator), that give even less voltage drop (only 100mV at 1A current):
+![](https://fabricate.hackclub-assets.com/3c2f8c355a9a556ae05640a4f477aa23687951e9410073e38ef3e18733b22c2d/image-png/image.png)
+(yes, its a bit tight)
+
+The DRV (=drive) consists of two P-MOSes in opposite orientation that are driven together and pulled high, ensuring no current flows when nothing pulls them down.
+
+Below them, the BLOCK, are two N-MOS (because low side drive) that will pull the DRV down - the main issue here was that I needed them to be OFF when their input was ON (obviously, that is not how N-MOSes work). But, i figured it out by pulling them high and driving **another** nmos instead (the INV), which would pull the BLOCK nmos down, shutting it off, but leave it pulled up (=ON) when not driven.
+
+And that is how it worked! (yipeee!!!)
+
+Anyways, now that that is done, i plan on doing three things:
+1. find better P-MOSFETs that have less RDSon
+2. implement the design and submit it
+3. implement the ideal diodes separately and submit them
+4. then finally work on radxaFPGAdx
+
+As always, here is the simulation:
+https://www.falstad.com/s.php?s=YXswGP
+(note that it's basically the one thing with like all the circuits i've been working on)
+
+Timelapse: https://lapse.hackclub.com/timelapse/yo4GJibIE7t6
+
+**Total time spent: 1h 24m**
